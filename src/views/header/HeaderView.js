@@ -7,8 +7,8 @@ class HeaderView extends LitElement {
 
     render() {
         return html`
-            <a href="/">Home</a>
-            <a href="/about">About</a>
+            <a href="${document.baseURI}">Home</a>
+            <a href="${document.baseURI}about">About</a>
         `;
     }
 }
