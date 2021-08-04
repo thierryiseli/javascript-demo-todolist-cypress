@@ -14,56 +14,53 @@ class HeaderView extends ComponentBase {
     this.setTheme(this.theme);
   }
 
-  static get styles() {
-    return css`
-          #header {
-            width: 100%;
-            padding: var(--sl-spacing-x-small) 0;
-            box-shadow: var(--sl-shadow-x-small);
-            margin-bottom: var(--sl-spacing-large);
-            text-align: center;
-          } 
-
-          #header-title {
-            font-size: var(--sl-font-size-xx-large);
-          }   
-
-          a {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--sl-color-primary-700);            
-            padding: var(--sl-spacing-large);
-            padding-top: 0;
-          } 
-
-          a:visited {
-            color: var(--sl-color-primary-700);
-          } 
-
-          a:hover {
-            color: var(--sl-color-primary-400);
-          } 
-
-          .theme-mode-button::part(base) {
-            padding: 0;
-          }
-        `;
-  }
-
   render() {
     return html`
-        <div id="header">
-          <h1 id="header-title">
-            todo-list-demo  
-            ${this.renderThemeButton()}
-          </h1>
-          <a href="${document.baseURI}" @click="${this.closeDrawer}">
-            Home
-          </a>
-          <a href="${document.baseURI}about" @click="${this.closeDrawer}">
-            About
-          </a>
-        </div>
+      <style>
+        #header {
+          width: 100%;
+          padding: var(--sl-spacing-x-small) 0;
+          box-shadow: var(--sl-shadow-x-small);
+          margin-bottom: var(--sl-spacing-large);
+          text-align: center;
+        } 
+
+        #header-title {
+          font-size: var(--sl-font-size-xx-large);
+        }   
+
+        a {
+          display: inline-block;
+          text-decoration: none;
+          color: var(--sl-color-primary-700);            
+          padding: var(--sl-spacing-large);
+          padding-top: 0;
+        } 
+
+        a:visited {
+          color: var(--sl-color-primary-700);
+        } 
+
+        a:hover {
+          color: var(--sl-color-primary-400);
+        } 
+
+        .theme-mode-button::part(base) {
+          padding: 0;
+        }
+      </style>
+      <div id="header">
+        <h1 id="header-title">
+          todo-list-demo  
+          ${this.renderThemeButton()}
+        </h1>
+        <a href="${document.baseURI}" @click="${this.closeDrawer}">
+          Home
+        </a>
+        <a href="${document.baseURI}about" @click="${this.closeDrawer}">
+          About
+        </a>
+      </div>
     `;
   }
 

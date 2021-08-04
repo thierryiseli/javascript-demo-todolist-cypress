@@ -6,7 +6,7 @@
      * Copyright 2019 Google LLC
      * SPDX-License-Identifier: BSD-3-Clause
      */
-    const t$4=window.ShadowRoot&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,e$4=Symbol();class s$7{constructor(t,s){if(s!==e$4)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t;}get styleSheet(){return t$4&&void 0===this.t&&(this.t=new CSSStyleSheet,this.t.replaceSync(this.cssText)),this.t}toString(){return this.cssText}}const n$4=new Map,o$5=t=>{let o=n$4.get(t);return void 0===o&&n$4.set(t,o=new s$7(t,e$4)),o},r$3=t=>o$5("string"==typeof t?t:t+""),i$5=(t,...e)=>{const n=1===t.length?t[0]:e.reduce(((e,n,o)=>e+(t=>{if(t instanceof s$7)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(n)+t[o+1]),t[0]);return o$5(n)},S$2=(e,s)=>{t$4?e.adoptedStyleSheets=s.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):s.forEach((t=>{const s=document.createElement("style");s.textContent=t.cssText,e.appendChild(s);}));},u$2=t$4?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$3(e)})(t):t;
+    const t$4=window.ShadowRoot&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,e$4=Symbol();class s$7{constructor(t,s){if(s!==e$4)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t;}get styleSheet(){return t$4&&void 0===this.t&&(this.t=new CSSStyleSheet,this.t.replaceSync(this.cssText)),this.t}toString(){return this.cssText}}const n$4=new Map,o$5=t=>{let o=n$4.get(t);return void 0===o&&n$4.set(t,o=new s$7(t,e$4)),o},r$3=t=>o$5("string"==typeof t?t:t+""),S$2=(e,s)=>{t$4?e.adoptedStyleSheets=s.map((t=>t instanceof CSSStyleSheet?t:t.styleSheet)):s.forEach((t=>{const s=document.createElement("style");s.textContent=t.cssText,e.appendChild(s);}));},u$2=t$4?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const s of t.cssRules)e+=s.cssText;return r$3(e)})(t):t;
 
     /**
      * @license
@@ -31,6 +31,10 @@
         constructor() {
             super();
         }
+
+        createRenderRoot() { 
+            return this; 
+        }
     }
 
     class HeaderView extends ComponentBase {
@@ -46,56 +50,53 @@
         this.setTheme(this.theme);
       }
 
-      static get styles() {
-        return i$5`
-          #header {
-            width: 100%;
-            padding: var(--sl-spacing-x-small) 0;
-            box-shadow: var(--sl-shadow-x-small);
-            margin-bottom: var(--sl-spacing-large);
-            text-align: center;
-          } 
-
-          #header-title {
-            font-size: var(--sl-font-size-xx-large);
-          }   
-
-          a {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--sl-color-primary-700);            
-            padding: var(--sl-spacing-large);
-            padding-top: 0;
-          } 
-
-          a:visited {
-            color: var(--sl-color-primary-700);
-          } 
-
-          a:hover {
-            color: var(--sl-color-primary-400);
-          } 
-
-          .theme-mode-button::part(base) {
-            padding: 0;
-          }
-        `;
-      }
-
       render() {
         return T$1`
-        <div id="header">
-          <h1 id="header-title">
-            todo-list-demo  
-            ${this.renderThemeButton()}
-          </h1>
-          <a href="${document.baseURI}" @click="${this.closeDrawer}">
-            Home
-          </a>
-          <a href="${document.baseURI}about" @click="${this.closeDrawer}">
-            About
-          </a>
-        </div>
+      <style>
+        #header {
+          width: 100%;
+          padding: var(--sl-spacing-x-small) 0;
+          box-shadow: var(--sl-shadow-x-small);
+          margin-bottom: var(--sl-spacing-large);
+          text-align: center;
+        } 
+
+        #header-title {
+          font-size: var(--sl-font-size-xx-large);
+        }   
+
+        a {
+          display: inline-block;
+          text-decoration: none;
+          color: var(--sl-color-primary-700);            
+          padding: var(--sl-spacing-large);
+          padding-top: 0;
+        } 
+
+        a:visited {
+          color: var(--sl-color-primary-700);
+        } 
+
+        a:hover {
+          color: var(--sl-color-primary-400);
+        } 
+
+        .theme-mode-button::part(base) {
+          padding: 0;
+        }
+      </style>
+      <div id="header">
+        <h1 id="header-title">
+          todo-list-demo  
+          ${this.renderThemeButton()}
+        </h1>
+        <a href="${document.baseURI}" @click="${this.closeDrawer}">
+          Home
+        </a>
+        <a href="${document.baseURI}about" @click="${this.closeDrawer}">
+          About
+        </a>
+      </div>
     `;
       }
 
@@ -163,8 +164,9 @@
         this.todoItemToDelete = null;
       }
 
-      static get styles() {
-        return i$5`
+      render() {
+        return T$1`
+      <style>
         #new-todo-item {
           width: 100%;
           max-width: 1000px;
@@ -220,24 +222,19 @@
           color: var(--sl-color-gray-300);
           text-decoration: line-through; 
         }
-        `;
-      }
-
-      render() {
-        return T$1`
-    <sl-input type="text" id="new-todo-item" placeholder="Enter todo item" help-text="Press enter to add todo item."
-      .value="${l$3(this.newTodoItem)}" @keyup="${this.inputNewTodoItem}"></sl-input>
-    <sl-details class="todo-item-cards" summary="Open todos" open>
-      ${this.renderTodoItems()}
-    </sl-details>
-    <sl-details class="todo-item-cards" summary="Todos done" open>
-      ${this.renderTodoItemsDone()}
-    </sl-details>    
-    <sl-dialog label="Are you sure?" id="todo-item-dialog">
-      Do you want to delete ${this.todoItemToDelete != null ? "\"" + this.todoItemToDelete.name + "\"" : ""}?
-      <sl-button slot="footer" type="primary" @click="${this.deleteTodoItem}">Yes</sl-button>
-    </sl-dialog>
-    `;
+      </style>
+      <sl-input type="text" id="new-todo-item" placeholder="Enter todo item" help-text="Press enter to add todo item."
+        .value="${l$3(this.newTodoItem)}" @keyup="${this.inputNewTodoItem}"></sl-input>
+      <sl-details class="todo-item-cards" summary="Open todos" open>
+        ${this.renderTodoItems()}
+      </sl-details>
+      <sl-details class="todo-item-cards" summary="Todos done" open>
+        ${this.renderTodoItemsDone()}
+      </sl-details>    
+      <sl-dialog label="Are you sure?" id="todo-item-dialog">
+        Do you want to delete ${this.todoItemToDelete != null ? "\"" + this.todoItemToDelete.name + "\"" : ""}?
+        <sl-button slot="footer" type="primary" @click="${this.deleteTodoItem}">Yes</sl-button>
+      </sl-dialog>`;
       }
 
       renderTodoItems() {
@@ -335,19 +332,16 @@
     customElements.define('home-view', HomeView);
 
     class AboutView extends ComponentBase {
-      static get styles() {
-        return i$5`
-          #about {
-            width: 100%;
-            padding: var(--sl-spacing-x-small) 0;
-            margin-bottom: var(--sl-spacing-large);
-            text-align: center;
-          }
-          `;
-      }
-
       render() {
         return T$1`
+    <style>
+      #about {
+        width: 100%;
+        padding: var(--sl-spacing-x-small) 0;
+        margin-bottom: var(--sl-spacing-large);
+        text-align: center;
+      }
+    </style>
     <div id="about">
       <h1>About</h1>
       <p>Demo todo-list with basic javascript/es6</p>

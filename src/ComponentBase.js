@@ -4,4 +4,8 @@ export class ComponentBase extends LitElement {
     constructor() {
         super();
     }
+
+    createRenderRoot() { 
+        return this; 
+    }
 }

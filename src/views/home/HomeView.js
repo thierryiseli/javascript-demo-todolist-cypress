@@ -24,8 +24,9 @@ class HomeView extends ComponentBase {
     this.todoItemToDelete = null;
   }
 
-  static get styles() {
-    return css`
+  render() {
+    return html`
+      <style>
         #new-todo-item {
           width: 100%;
           max-width: 1000px;
@@ -81,24 +82,19 @@ class HomeView extends ComponentBase {
           color: var(--sl-color-gray-300);
           text-decoration: line-through; 
         }
-        `;
-  }
-
-  render() {
-    return html`
-    <sl-input type="text" id="new-todo-item" placeholder="Enter todo item" help-text="Press enter to add todo item."
-      .value="${live(this.newTodoItem)}" @keyup="${this.inputNewTodoItem}"></sl-input>
-    <sl-details class="todo-item-cards" summary="Open todos" open>
-      ${this.renderTodoItems()}
-    </sl-details>
-    <sl-details class="todo-item-cards" summary="Todos done" open>
-      ${this.renderTodoItemsDone()}
-    </sl-details>    
-    <sl-dialog label="Are you sure?" id="todo-item-dialog">
-      Do you want to delete ${this.todoItemToDelete != null ? "\"" + this.todoItemToDelete.name + "\"" : ""}?
-      <sl-button slot="footer" type="primary" @click="${this.deleteTodoItem}">Yes</sl-button>
-    </sl-dialog>
-    `;
+      </style>
+      <sl-input type="text" id="new-todo-item" placeholder="Enter todo item" help-text="Press enter to add todo item."
+        .value="${live(this.newTodoItem)}" @keyup="${this.inputNewTodoItem}"></sl-input>
+      <sl-details class="todo-item-cards" summary="Open todos" open>
+        ${this.renderTodoItems()}
+      </sl-details>
+      <sl-details class="todo-item-cards" summary="Todos done" open>
+        ${this.renderTodoItemsDone()}
+      </sl-details>    
+      <sl-dialog label="Are you sure?" id="todo-item-dialog">
+        Do you want to delete ${this.todoItemToDelete != null ? "\"" + this.todoItemToDelete.name + "\"" : ""}?
+        <sl-button slot="footer" type="primary" @click="${this.deleteTodoItem}">Yes</sl-button>
+      </sl-dialog>`;
   }
 
   renderTodoItems() {
