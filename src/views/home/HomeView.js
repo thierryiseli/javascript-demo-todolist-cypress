@@ -148,14 +148,14 @@ class HomeView extends ComponentBase {
   }
 
   openDeleteTodoItemDialog(todoItem) {
-    let dialog = this.shadowRoot.querySelector("#todo-item-dialog");
+    let dialog = this.querySelector("#todo-item-dialog");
     this.todoItemToDelete = todoItem;
     dialog.show();
   }
 
 
   deleteTodoItem() {
-    let dialog = this.shadowRoot.querySelector("#todo-item-dialog");
+    let dialog = this.querySelector("#todo-item-dialog");
     dialog.hide();
     let index = this.todoItems.indexOf(this.todoItemToDelete);
     if (index > -1) {
