@@ -147,7 +147,8 @@
         return {
           todoItems: { type: Array },
           newTodoItem: { type: String },
-          todoItemToDelete: { type: Object }
+          todoItemToDelete: { type: Object },
+          todoItemToDeleteElement: { type: Object }
         };
       }
 
@@ -162,6 +163,7 @@
         }
         this.newTodoItem = "";
         this.todoItemToDelete = null;
+        this.todoItemToDeleteElement = null;
       }
 
       render() {
@@ -243,9 +245,9 @@
           .sort(function compare(a, b) {
             var dateA = new Date(a.createdAt);
             var dateB = new Date(b.createdAt);
-            return dateB - dateA;
+            return dateA - dateB;
           }).map(i => T$1`
-        <div class="todo-item-card">
+        <div class="todo-item-card animate__animated animate__zoomIn">
           ${this.renderTodoIcons(i)}
           <span class="todo-item-card-text">${i.name}</span>
           ${this.renderTodoButtons(i)}
@@ -259,9 +261,9 @@
           .sort(function compare(a, b) {
             var dateA = new Date(a.createdAt);
             var dateB = new Date(b.createdAt);
-            return dateB - dateA;
+            return dateA - dateB;
           }).map(i => T$1`
-        <div class="todo-item-card todo-item-card-done">
+        <div class="todo-item-card todo-item-card-done animate__animated animate__zoomIn">
           ${this.renderTodoIcons(i)}
           <span class="todo-item-card-text">${i.name}</span>
           ${this.renderTodoButtons(i)}
@@ -283,26 +285,33 @@
 
       renderTodoButtons(todoItem) {
         return T$1`<sl-icon-button class="todo-item-card-delete-button" library="ionicons" name="trash-outline"
-  @click="${(e) => this.openDeleteTodoItemDialog(todoItem)}">
+  @click="${(e) => this.openDeleteTodoItemDialog(e, todoItem)}">
 </sl-icon-button>`;
       }
 
-      openDeleteTodoItemDialog(todoItem) {
-        let dialog = this.shadowRoot.querySelector("#todo-item-dialog");
+      openDeleteTodoItemDialog(e, todoItem) {
+        let dialog = this.querySelector("#todo-item-dialog");
         this.todoItemToDelete = todoItem;
+        this.todoItemToDeleteElement = e.target.closest(".todo-item-card");
         dialog.show();
       }
 
 
       deleteTodoItem() {
-        let dialog = this.shadowRoot.querySelector("#todo-item-dialog");
-        dialog.hide();
-        let index = this.todoItems.indexOf(this.todoItemToDelete);
-        if (index > -1) {
-          this.todoItems.splice(index, 1);
-        }
-        this.requestUpdate();
-        this.saveTodoList();
+        this.todoItemToDeleteElement.classList.add('animate__zoomOut');   
+        let self = this;
+        setTimeout(function(){ 
+          let dialog = self.querySelector("#todo-item-dialog");
+          dialog.hide();
+          self.requestUpdate(); 
+          let index = self.todoItems.indexOf(self.todoItemToDelete);
+          if (index > -1) {
+            self.todoItems.splice(index, 1);
+            self.todoItemToDeleteElement.classList.remove('animate__zoomOut');  
+            self.requestUpdate();
+          }
+          self.saveTodoList();
+        }, 300);
       }
 
       changeTodoStatus(todoItem, done) {

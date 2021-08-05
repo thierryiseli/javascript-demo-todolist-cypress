@@ -6,6 +6,8 @@ import '@shoelace-style/shoelace/dist/shoelace';
 import '@shoelace-style/shoelace/dist/themes/base.css';
 import '@shoelace-style/shoelace/dist/themes/dark.css';
 import './app.css'
+import 'animate.css/animate.css'
+
 
 import { Router } from '@vaadin/router';
 
