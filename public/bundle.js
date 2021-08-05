@@ -147,6 +147,7 @@
         return {
           todoItems: { type: Array },
           newTodoItem: { type: String },
+          activeTodoItem: { type: Object },
           todoItemToDelete: { type: Object },
           todoItemToDeleteElement: { type: Object }
         };
@@ -227,7 +228,7 @@
       </style>
       <sl-input type="text" id="new-todo-item" placeholder="Enter todo item" help-text="Press enter to add todo item."
         .value="${l$3(this.newTodoItem)}" @keyup="${this.inputNewTodoItem}"></sl-input>
-      <sl-details class="todo-item-cards" summary="Open todos" open>
+      <sl-details class="todo-item-cards todo-item-cards-open" summary="Open todos" open>
         ${this.renderTodoItems()}
       </sl-details>
       <sl-details class="todo-item-cards" summary="Todos done" open>
@@ -247,12 +248,39 @@
             var dateB = new Date(b.createdAt);
             return dateA - dateB;
           }).map(i => T$1`
-        <div class="todo-item-card animate__animated animate__bounceInRight">
-          ${this.renderTodoIcons(i)}
-          <span class="todo-item-card-text">${i.name}</span>
-          ${this.renderTodoButtons(i)}
+        <div class="todo-item-card animate__animated animate__bounceInRight">         
+          ${this.renderTodoItemContent(i)}          
         </div>
     `);
+      }
+
+      renderTodoItemContent(todoItem) {
+        if (this.activeTodoItem == todoItem) {
+          return T$1`<sl-input class="todo-item-input-update" value="${todoItem.name}" @keyup="${this.saveUpdatedText}"></sl-input>      `
+        } else {
+          return T$1`
+        ${this.renderTodoIcons(todoItem)}
+        <span class="todo-item-card-text" @click="${(e) => this.changeToInputField(todoItem)}">${todoItem.name}</span>
+        ${this.renderTodoButtons(todoItem)}`
+        }
+      }
+
+      saveUpdatedText(event) {
+        if (event.key === "Enter") {
+          this.activeTodoItem.name = event.target.value;
+          this.activeTodoItem = null;
+          this.requestUpdate();
+          this.saveTodoList();
+        }
+      }
+
+      changeToInputField(todoItem) {
+        this.activeTodoItem = todoItem;
+        this.requestUpdate();
+        let self = this;
+        setTimeout(function() {
+          self.querySelector('.todo-item-input-update').focus();
+        }, 150);
       }
 
       renderTodoItemsDone() {
@@ -298,16 +326,16 @@
 
 
       deleteTodoItem() {
-        this.todoItemToDeleteElement.classList.add('animate__animated', 'animate__zoomOut');   
+        this.todoItemToDeleteElement.classList.add('animate__animated', 'animate__zoomOut');
         let self = this;
-        setTimeout(function(){ 
+        setTimeout(function () {
           let dialog = self.querySelector("#todo-item-dialog");
           dialog.hide();
-          self.requestUpdate(); 
+          self.requestUpdate();
           let index = self.todoItems.indexOf(self.todoItemToDelete);
           if (index > -1) {
             self.todoItems.splice(index, 1);
-            self.todoItemToDeleteElement.classList.remove('animate__animated', 'animate__zoomOut');  
+            self.todoItemToDeleteElement.classList.remove('animate__animated', 'animate__zoomOut');
             self.requestUpdate();
           }
           self.saveTodoList();
