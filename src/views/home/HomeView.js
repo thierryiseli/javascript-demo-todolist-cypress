@@ -107,7 +107,7 @@ class HomeView extends ComponentBase {
         var dateB = new Date(b.createdAt);
         return dateA - dateB;
       }).map(i => html`
-        <div class="todo-item-card animate__animated animate__zoomIn">
+        <div class="todo-item-card animate__animated animate__bounceInRight">
           ${this.renderTodoIcons(i)}
           <span class="todo-item-card-text">${i.name}</span>
           ${this.renderTodoButtons(i)}
@@ -123,7 +123,7 @@ class HomeView extends ComponentBase {
         var dateB = new Date(b.createdAt);
         return dateA - dateB;
       }).map(i => html`
-        <div class="todo-item-card todo-item-card-done animate__animated animate__zoomIn">
+        <div class="todo-item-card todo-item-card-done animate__animated animate__bounceInRight">
           ${this.renderTodoIcons(i)}
           <span class="todo-item-card-text">${i.name}</span>
           ${this.renderTodoButtons(i)}
@@ -158,7 +158,7 @@ class HomeView extends ComponentBase {
 
 
   deleteTodoItem() {
-    this.todoItemToDeleteElement.classList.add('animate__zoomOut')   
+    this.todoItemToDeleteElement.classList.add('animate__animated', 'animate__zoomOut')   
     let self = this;
     setTimeout(function(){ 
       let dialog = self.querySelector("#todo-item-dialog");
@@ -167,7 +167,7 @@ class HomeView extends ComponentBase {
       let index = self.todoItems.indexOf(self.todoItemToDelete);
       if (index > -1) {
         self.todoItems.splice(index, 1);
-        self.todoItemToDeleteElement.classList.remove('animate__zoomOut')  
+        self.todoItemToDeleteElement.classList.remove('animate__animated', 'animate__zoomOut')  
         self.requestUpdate();
       }
       self.saveTodoList();
