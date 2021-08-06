@@ -19881,15 +19881,6 @@
 
     Router.NavigationTrigger = {POPSTATE, CLICK};
 
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function() {
-        navigator.serviceWorker
-          .register(document.baseURI + "serviceWorker.js")
-          .then(res => console.log("service worker registered"))
-          .catch(err => console.log("service worker not registered", err));
-      });
-    }
-
     registerIconLibrary('ionicons', {
       resolver: name => `https://cdn.jsdelivr.net/npm/ionicons@5.1.2/dist/ionicons/svg/${name}.svg`,
       mutator: svg => {
@@ -19911,6 +19902,15 @@
         component: 'about-view'
       }
     ]);
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function() {
+        navigator.serviceWorker
+          .register(document.baseURI + "serviceWorker.js")
+          .then(res => console.log("service worker registered"))
+          .catch(err => console.log("service worker not registered", err));
+      });
+    }
 
 }());
 //# sourceMappingURL=bundle.js.map
