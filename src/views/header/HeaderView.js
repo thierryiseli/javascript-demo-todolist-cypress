@@ -1,10 +1,10 @@
-import { html, css } from 'lit';
-import { ComponentBase } from '../../ComponentBase';
+import { html, css } from "lit";
+import { ComponentBase } from "../../ComponentBase";
 
 class HeaderView extends ComponentBase {
   static get properties() {
     return {
-      theme: { type: String }
+      theme: { type: String },
     };
   }
 
@@ -23,40 +23,48 @@ class HeaderView extends ComponentBase {
           box-shadow: var(--sl-shadow-x-small);
           margin-bottom: var(--sl-spacing-large);
           text-align: center;
-        } 
+        }
 
         #header-title {
           font-size: var(--sl-font-size-xx-large);
-        }   
+          margin-top: 10px;
+        }
 
         a {
           display: inline-block;
           text-decoration: none;
-          color: var(--sl-color-primary-700);            
+          color: var(--sl-color-primary-700);
           padding: var(--sl-spacing-large);
           padding-top: 0;
-        } 
+        }
 
         a:visited {
           color: var(--sl-color-primary-700);
-        } 
+        }
 
         a:hover {
           color: var(--sl-color-primary-400);
-        } 
+        }
 
         .theme-mode-button::part(base) {
           padding: 0;
         }
       </style>
       <div id="header">
-        <h1 id="header-title">
-          todo-list-demo  
-          ${this.renderThemeButton()}
-        </h1>
-        <a href="${document.baseURI}" @click="${this.closeDrawer}">
-          Home
-        </a>
+        <pwa-install-button>
+          <sl-button type="default" size="small">
+            <sl-icon slot="prefix" library="ionicons" name="download"></sl-icon>
+            Install
+          </sl-button>
+        </pwa-install-button>
+        <pwa-update-available>
+          <sl-button type="default" size="small">
+            <sl-icon slot="prefix" library="ionicons" name="sync"></sl-icon>
+            Update
+          </sl-button>
+        </pwa-update-available>
+        <h1 id="header-title">todo-list-demo ${this.renderThemeButton()}</h1>
+        <a href="${document.baseURI}" @click="${this.closeDrawer}"> Home </a>
         <a href="${document.baseURI}about" @click="${this.closeDrawer}">
           About
         </a>
@@ -66,9 +74,19 @@ class HeaderView extends ComponentBase {
 
   renderThemeButton() {
     if (this.theme === "dark") {
-      return html`<sl-icon-button class="theme-mode-button" library="ionicons" name="moon-outline" @click="${(e) => this.setTheme("light")}"></sl-icon-button>`
+      return html`<sl-icon-button
+        class="theme-mode-button"
+        library="ionicons"
+        name="moon-outline"
+        @click="${(e) => this.setTheme("light")}"
+      ></sl-icon-button>`;
     } else {
-      return html`<sl-icon-button class="theme-mode-button" library="ionicons" name="moon" @click="${(e) => this.setTheme("dark")}"></sl-icon-button>`
+      return html`<sl-icon-button
+        class="theme-mode-button"
+        library="ionicons"
+        name="moon"
+        @click="${(e) => this.setTheme("dark")}"
+      ></sl-icon-button>`;
     }
   }
 
@@ -85,4 +103,4 @@ class HeaderView extends ComponentBase {
   }
 }
 
-customElements.define('header-view', HeaderView)
+customElements.define("header-view", HeaderView);
