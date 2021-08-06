@@ -5,13 +5,23 @@ import './views/about/AboutView';
 import '@shoelace-style/shoelace/dist/shoelace';
 import '@shoelace-style/shoelace/dist/themes/base.css';
 import '@shoelace-style/shoelace/dist/themes/dark.css';
-import './app.css'
 import 'animate.css/animate.css'
-
+import 'pwa-helper-components/pwa-install-button';
+import 'pwa-helper-components/pwa-update-available';
+import './app.css'
 
 import { Router } from '@vaadin/router';
 
 import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library';
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker
+      .register(document.baseURI + "serviceWorker.js")
+      .then(res => console.log("service worker registered"))
+      .catch(err => console.log("service worker not registered", err))
+  })
+}
 
 registerIconLibrary('ionicons', {
   resolver: name => `https://cdn.jsdelivr.net/npm/ionicons@5.1.2/dist/ionicons/svg/${name}.svg`,

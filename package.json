@@ -5,7 +5,8 @@
     "@shoelace-style/shoelace": "^2.0.0-beta.47",
     "@vaadin/router": "^1.7.4",
     "animate.css": "^4.1.1",
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0-rc.2",
+    "pwa-helper-components": "^0.2.10"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
