@@ -29,9 +29,10 @@ jobs:
         run: |
           cp -rf ./config/github/* ./public/
 
-      - name: Set version in ServiceWorker.js
+      - name: Relpace version in files
         run: |
           sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/serviceWorker.js
+          sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/config.json
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4

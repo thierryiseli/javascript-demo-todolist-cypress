@@ -41,13 +41,19 @@
       static get properties() {
         return {
           theme: { type: String },
+          version: { type: String }
         };
       }
 
       constructor() {
         super();
         this.theme = localStorage.getItem("theme");
+        this.version = "";
         this.setTheme(this.theme);
+      }
+
+      async firstUpdated() {
+          this.version = await this.getVersion();
       }
 
       render() {
@@ -99,13 +105,19 @@
             Update
           </sl-button>
         </pwa-update-available>
-        <h1 id="header-title">todo-list-demo ${this.renderThemeButton()}</h1>
+        <h1 id="header-title">todo-list-demo ${this.version} ${this.renderThemeButton()}</h1>
         <a href="${document.baseURI}" @click="${this.closeDrawer}"> Home </a>
         <a href="${document.baseURI}about" @click="${this.closeDrawer}">
           About
         </a>
       </div>
     `;
+      }
+
+      async getVersion() {
+        return await fetch(document.baseURI + "config.json")
+          .then(res => res.json())
+          .then(config => config.version);
       }
 
       renderThemeButton() {
