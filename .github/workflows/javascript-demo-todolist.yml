@@ -7,6 +7,17 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
 
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.5.0'   
+
+      - name: Run GitVersion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        id:   gitversion
+        with:
+          useConfigFile: true
+
       - name: Install and Build 🔧
         run: |
           npm install
@@ -15,6 +26,10 @@ jobs:
       - name: Prepare deploy
         run: |
           cp -rf ./config/github/* ./public/
+
+      - name: Set version in ServiceWorker.js
+        run: |
+          sed -i 's/$$version$$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/serviceWorker.js
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4

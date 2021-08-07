@@ -1,0 +1,5 @@
+mode: mainline
+major-version-bump-message: '\[BREAKING CHANGES\]'
+minor-version-bump-message: '\[FEAT\]'
+patch-version-bump-message: '\[?(FIX|BUILD|CI|DOCS|STYLE|REFACTOR|PREF|TEST|CHORE)\]'
+no-bump-message: '\[SKIP\]'

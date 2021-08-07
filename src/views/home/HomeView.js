@@ -94,19 +94,21 @@ class HomeView extends ComponentBase {
       ></sl-input>
       <sl-details
         class="todo-item-cards todo-item-cards-open"
-        summary="Open todos"
+        summary="Open todos (${this.getOpenTodoItems().length})"
         open
       >
         ${this.renderTodoItems()}
       </sl-details>
-      <sl-details class="todo-item-cards" summary="Todos done" open>
+      <sl-details class="todo-item-cards" 
+                  summary="Todos done (${this.getDoneTodoItems().length})" 
+                  open>
         ${this.renderTodoItemsDone()}
       </sl-details>
       <sl-dialog label="Are you sure?" id="todo-item-dialog">
         Do you want to delete
         ${this.todoItemToDelete != null
-          ? '"' + this.todoItemToDelete.name + '"'
-          : ""}?
+        ? '"' + this.todoItemToDelete.name + '"'
+        : ""}?
         <sl-button slot="footer" type="primary" @click="${this.deleteTodoItem}"
           >Yes</sl-button
         >
@@ -114,20 +116,13 @@ class HomeView extends ComponentBase {
   }
 
   renderTodoItems() {
-    return this.todoItems
-      .filter((i) => i.done == false)
-      .sort(function compare(a, b) {
-        var dateA = new Date(a.createdAt);
-        var dateB = new Date(b.createdAt);
-        return dateA - dateB;
-      })
-      .map(
-        (i) => html`
+    return this.getOpenTodoItems().map(
+      (i) => html`
           <div class="todo-item-card animate__animated animate__bounceInRight">
             ${this.renderTodoItemContent(i)}
           </div>
         `
-      );
+    );
   }
 
   renderTodoItemContent(todoItem) {
@@ -171,14 +166,7 @@ class HomeView extends ComponentBase {
   }
 
   renderTodoItemsDone() {
-    return this.todoItems
-      .filter((i) => i.done == true)
-      .sort(function compare(a, b) {
-        var dateA = new Date(a.createdAt);
-        var dateB = new Date(b.createdAt);
-        return dateA - dateB;
-      })
-      .map(
+    return this.getDoneTodoItems().map(
         (i) => html`
           <div
             class="todo-item-card todo-item-card-done animate__animated animate__bounceInRight"
@@ -272,6 +260,26 @@ class HomeView extends ComponentBase {
 
   saveTodoList() {
     localStorage.setItem("todoItems", JSON.stringify(this.todoItems));
+  }
+
+  getOpenTodoItems() {
+    return this.todoItems
+      .filter((i) => i.done == false)
+      .sort(function compare(a, b) {
+        var dateA = new Date(a.createdAt);
+        var dateB = new Date(b.createdAt);
+        return dateA - dateB;
+      })
+  }
+
+  getDoneTodoItems() {
+    return this.todoItems
+      .filter((i) => i.done == true)
+      .sort(function compare(a, b) {
+        var dateA = new Date(a.createdAt);
+        var dateB = new Date(b.createdAt);
+        return dateA - dateB;
+      })
   }
 }
 
