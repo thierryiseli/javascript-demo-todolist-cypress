@@ -31,7 +31,7 @@ jobs:
 
       - name: Set version in ServiceWorker.js
         run: |
-          sed -i 's/$$version$$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/serviceWorker.js
+          sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}' ./public/serviceWorker.js
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
