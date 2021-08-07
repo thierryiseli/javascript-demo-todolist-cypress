@@ -69,6 +69,7 @@ class HeaderView extends ComponentBase {
             Update
           </sl-button>
         </pwa-update-available>
+        <br />
         <span id="version">${this.version}</span>
         <br />
         <h1 id="header-title">todo-list-demo ${this.renderThemeButton()}</h1>        
