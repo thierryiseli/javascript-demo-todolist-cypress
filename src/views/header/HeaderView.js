@@ -88,7 +88,7 @@ class HeaderView extends ComponentBase {
             <strong>Install this web app:</strong><br />
             <sl-button class="pwa-button" type="default">
               <sl-icon slot="prefix" library="ionicons" name="download"></sl-icon>
-              Install
+              Install PWA
             </sl-button>
           </sl-alert>
         </pwa-install-button>
@@ -97,7 +97,7 @@ class HeaderView extends ComponentBase {
             <strong>Update this web app:</strong><br />
             <sl-button class="pwa-button" type="default">
               <sl-icon slot="prefix" library="ionicons" name="sync"></sl-icon>
-              Update
+              Update PWA
               </sl-button>          
           </sl-alert>
         </pwa-update-available>
