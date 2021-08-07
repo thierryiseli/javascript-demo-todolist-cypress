@@ -33,6 +33,7 @@ jobs:
         run: |
           sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/serviceWorker.js
           sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./public/config.json
+          sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/g' ./public/index.html
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4

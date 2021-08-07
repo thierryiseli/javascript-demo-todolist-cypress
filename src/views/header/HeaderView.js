@@ -55,21 +55,25 @@ class HeaderView extends ComponentBase {
         .theme-mode-button::part(base) {
           padding: 0;
         }
+
+        .header-notification::part(base) {
+          margin: var(--sl-spacing-large) auto;
+        }
+
+        .container {
+          width: 100%;
+          max-width: 1000px;
+          padding: 0 var(--sl-spacing-medium);
+          margin: var(--sl-spacing-large) auto;
+          box-sizing: border-box;
+          text-align: center;
+        }
+
+        .pwa-button {
+          margin-top: var(--sl-spacing-small);
+        }
       </style>
       <div id="header">
-        <pwa-install-button>
-          <sl-button type="default" size="small">
-            <sl-icon slot="prefix" library="ionicons" name="download"></sl-icon>
-            Install
-          </sl-button>
-        </pwa-install-button>
-        <pwa-update-available>
-          <sl-button type="default" size="small">
-            <sl-icon slot="prefix" library="ionicons" name="sync"></sl-icon>
-            Update
-          </sl-button>
-        </pwa-update-available>
-        <br />
         <span id="version">${this.version}</span>
         <br />
         <h1 id="header-title">todo-list-demo ${this.renderThemeButton()}</h1>        
@@ -78,6 +82,26 @@ class HeaderView extends ComponentBase {
           About
         </a>
       </div>
+      <div class="container">
+        <pwa-install-button>
+          <sl-alert type="primary" open>
+            <strong>Install this web app:</strong><br />
+            <sl-button class="pwa-button" type="default">
+              <sl-icon slot="prefix" library="ionicons" name="download"></sl-icon>
+              Install
+            </sl-button>
+          </sl-alert>
+        </pwa-install-button>
+        <pwa-update-available>
+          <sl-alert type="primary" open>
+            <strong>Update this web app:</strong><br />
+            <sl-button class="pwa-button" type="default">
+              <sl-icon slot="prefix" library="ionicons" name="sync"></sl-icon>
+              Update
+              </sl-button>          
+          </sl-alert>
+        </pwa-update-available>
+      </div>    
     `;
   }
 
