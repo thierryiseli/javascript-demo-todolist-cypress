@@ -69,7 +69,9 @@ class HeaderView extends ComponentBase {
             Update
           </sl-button>
         </pwa-update-available>
-        <h1 id="header-title">todo-list-demo ${this.version} ${this.renderThemeButton()}</h1>
+        <span id="version">${this.version}</span>
+        <br />
+        <h1 id="header-title">todo-list-demo ${this.renderThemeButton()}</h1>        
         <a href="${document.baseURI}" @click="${this.closeDrawer}"> Home </a>
         <a href="${document.baseURI}about" @click="${this.closeDrawer}">
           About
