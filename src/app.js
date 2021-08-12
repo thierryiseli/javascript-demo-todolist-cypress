@@ -8,7 +8,7 @@ import '@shoelace-style/shoelace/dist/themes/dark.css';
 import 'animate.css/animate.css'
 import 'pwa-helper-components/pwa-install-button';
 import 'pwa-helper-components/pwa-update-available';
-import './app.css'
+import './custom.css'
 
 import { Router } from '@vaadin/router';
 
