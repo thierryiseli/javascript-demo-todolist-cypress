@@ -1,6 +1,6 @@
 export default {
     mount: {
-        src: '/'
+        src: { url: '/', static: true }
     },
     optimize: {
         bundle: true
