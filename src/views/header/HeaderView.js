@@ -1,4 +1,4 @@
-import { html, css } from "lit";
+import { html } from "lit";
 import { ComponentBase } from "../../ComponentBase";
 
 class HeaderView extends ComponentBase {
@@ -17,7 +17,7 @@ class HeaderView extends ComponentBase {
   }
 
   async firstUpdated() {
-      this.version = await this.getVersion();
+    this.version = await this.getVersion();
   }
 
   render() {
@@ -72,6 +72,10 @@ class HeaderView extends ComponentBase {
         .pwa-button {
           margin-top: var(--sl-spacing-small);
         }
+
+        .pwa-install-alert {
+          margin-bottom: var(--sl-spacing-medium);
+        }
       </style>
       <div id="header">
         <span id="version">${this.version}</span>
@@ -84,7 +88,7 @@ class HeaderView extends ComponentBase {
       </div>
       <div class="container">
         <pwa-install-button>
-          <sl-alert type="primary" open>
+          <sl-alert type="primary" open class="pwa-install-alert">
             <strong>Install this web app:</strong><br />
             <sl-button class="pwa-button" type="default">
               <sl-icon slot="prefix" library="ionicons" name="download"></sl-icon>

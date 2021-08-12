@@ -1,4 +1,4 @@
-import { html, css } from "lit";
+import { html } from "lit";
 import { live } from "lit/directives/live.js";
 import { ComponentBase } from "../../ComponentBase";
 
