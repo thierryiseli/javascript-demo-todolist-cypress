@@ -1,0 +1,14 @@
+{
+  "imports": {
+    "@shoelace-style/shoelace/dist/shoelace": "./@shoelace-style/shoelace/dist/shoelace.js",
+    "@shoelace-style/shoelace/dist/themes/base.css": "./@shoelace-style/shoelace/dist/themes/base.css",
+    "@shoelace-style/shoelace/dist/themes/dark.css": "./@shoelace-style/shoelace/dist/themes/dark.css",
+    "@shoelace-style/shoelace/dist/utilities/icon-library": "./@shoelace-style/shoelace/dist/utilities/icon-library.js",
+    "@vaadin/router": "./@vaadin/router.js",
+    "animate.css/animate.css": "./animate.css/animate.css",
+    "lit": "./lit.js",
+    "lit/directives/live.js": "./lit/directives/live.js",
+    "pwa-helper-components/pwa-install-button": "./pwa-helper-components/pwa-install-button.js",
+    "pwa-helper-components/pwa-update-available": "./pwa-helper-components/pwa-update-available.js"
+  }
+}
