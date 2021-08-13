@@ -1,0 +1,87 @@
+def gitversion = []
+
+podTemplate(containers: [
+        containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'gitversion', image: 'im5tu/netcore-gitversion:3-alpine', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'npm', image: 'node:current-alpine3.14', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'jdknode', image: 'timbru31/java-node:11-jdk', command: 'cat', ttyEnabled: true)],
+        volumes: [
+                hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+        ]) {
+    node(POD_LABEL) {
+        stage('Checkout') {
+            checkout scm
+        }
+
+        container('gitversion') {
+            stage('Set version') {
+                def output = sh(returnStdout: true, script: 'dotnet-gitversion /output json')
+                gitversion = readJSON text: output
+                currentBuild.displayName = "${gitversion.MajorMinorPatch} (${currentBuild.displayName})"
+                echo output
+            }
+        }
+
+        container('npm') {
+            stage('Build frontend') {
+                sh 'npm install'
+                sh 'npm run build'
+            }
+        }
+
+        container('jdknode') {
+            stage('SonarQube analysis') {
+                def scannerHome = tool name: 'SonarQube';
+                withSonarQubeEnv("SonarQube") {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=tyupch_javascript-demo-todolist \
+                    -Dsonar.projectName=javascript-demo-todolist \
+                    -Dsonar.organization=tyupch \
+                    -Dsonar.sources=src"
+                }
+            }
+
+            stage("Quality Gate") {
+                timeout(time: 1, unit: 'HOURS') { 
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                }
+            }   
+        }
+
+        stage('Push to GitHub Pages') {
+            dir('gh-pages') {
+                try {
+                    withCredentials([usernamePassword(credentialsId: 'github',
+                        usernameVariable: 'GIT_USERNAME',
+                        passwordVariable: 'GIT_PASSWORD')]) {
+                        sh 'git init .'
+                        sh "git remote add -t gh-pages -f origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/tyupch/javascript-demo-todolist"
+                        sh 'git config user.email thierry.iseli@tyup.ch'
+                        sh 'git config user.name thierryiseli'
+                        sh 'git checkout gh-pages'
+                        sh 'cp -r ../build/* .'
+                        sh 'cp -r ../config/github/* .'
+                        sh "sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./serviceWorker.js"
+                        sh "sed -i 's/\$\$version\$\$/${{ steps.gitversion.outputs.majorMinorPatch }}/' ./config.json"
+                        sh "sed -i 's/app.js/app.js?${{ steps.gitversion.outputs.majorMinorPatch }}/' ./index.html"
+                        sh "sed -i 's/app.css/app.css?${{ steps.gitversion.outputs.majorMinorPatch }}/' ./index.html"
+                        sh 'git add .'
+                        sh "git commit -m 'Update github pages from build: ${currentBuild.displayName}'"
+                        sh 'git push -u origin gh-pages'
+                        }
+                } catch (error) {
+                    echo "Push failed, but if there are no changes, it's ok."
+                }
+            }
+        }
+
+        container('docker') {
+            stage('Run bdd tests') {
+                sh 'docker run -it -v $PWD:/e2e -w /e2e cypress/included:8.2.0 --browser firefox'
+            }
+        }
+    }
+}
