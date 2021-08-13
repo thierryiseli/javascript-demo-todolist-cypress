@@ -24,8 +24,8 @@ podTemplate(containers: [
 
         container('npm') {
             stage('Build frontend') {
-                sh 'npm install -g cypress --unsafe-perm --silent'
-                sh 'npm install'
+                sh 'npm install --production'
+                sh 'npm install snowpack@3.8.6'
                 sh 'npm run build'
             }
         }
