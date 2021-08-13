@@ -43,7 +43,8 @@ podTemplate(containers: [
                     -Dsonar.projectKey=tyupch_javascript-demo-todolist \
                     -Dsonar.projectName=javascript-demo-todolist \
                     -Dsonar.organization=tyupch \
-                    -Dsonar.sources=src"
+                    -Dsonar.sources=src \
+                    -Dsonar.exclusions=src/serviceWorker.js"
                 }
             }
 
