@@ -24,6 +24,7 @@ podTemplate(containers: [
 
         container('npm') {
             stage('Build frontend') {
+                sh 'npm install -g cypress --unsafe-perm --silent'
                 sh 'npm install'
                 sh 'npm run build'
             }
