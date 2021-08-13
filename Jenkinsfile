@@ -29,7 +29,7 @@ podTemplate(containers: [
                     'HOME=.',
                 ]) {
                     sh 'npm install --production'
-                    sh 'npm install snowpack@3.8.6 --production'
+                    sh 'npm install snowpack@3.8.6 -g --production'
                     sh 'npm run build'
                 }
             }
