@@ -25,7 +25,7 @@ podTemplate(containers: [
         container('npm') {
             stage('Build frontend') {
                 sh 'npm install --production'
-                sh 'npm install snowpack@3.8.6'
+                sh 'npm install snowpack@3.8.6 --production'
                 sh 'npm run build'
             }
         }
