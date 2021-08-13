@@ -45,7 +45,7 @@ podTemplate(containers: [
                     -Dsonar.organization=tyupch \
                     -Dsonar.sources=src \
                     -Dsonar.exclusions=src/serviceWorker.js \
-                    -Dsonar.coverage.exclusions=src"
+                    -Dsonar.coverage.exclusions=src/**/*.*"
                 }
             }
 
