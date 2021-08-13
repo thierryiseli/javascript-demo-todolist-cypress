@@ -72,10 +72,10 @@ podTemplate(containers: [
                         sh 'git checkout gh-pages'
                         sh 'cp -r ../build/* .'
                         sh 'cp -r ../config/github/* .'
-                        sh "sed -i \"s/\$\$version\$\$/${gitversion.MajorMinorPatch}/\" ./serviceWorker.js"
-                        sh "sed -i \"s/\$\$version\$\$/${gitversion.MajorMinorPatch}/\" ./config.json"
-                        sh "sed -i 's/app.js/app.js?${gitversion.MajorMinorPatch}/' ./index.html"
-                        sh "sed -i 's/app.css/app.css?${gitversion.MajorMinorPatch}/' ./index.html"
+                        sh "sed -i 's/\$\$version\$\$/${gitversion.MajorMinorPatch}/' serviceWorker.js"
+                        sh "sed -i 's/\$\$version\$\$/${gitversion.MajorMinorPatch}/' config.json"
+                        sh "sed -i 's/app.js/app.js?${gitversion.MajorMinorPatch}/' index.html"
+                        sh "sed -i 's/app.css/app.css?${gitversion.MajorMinorPatch}/' index.html"
                         sh 'git add .'
                         sh "git commit -m 'Update github pages from build: ${currentBuild.displayName}'"
                         sh 'git push -u origin gh-pages'
