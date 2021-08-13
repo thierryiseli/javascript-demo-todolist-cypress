@@ -9,10 +9,16 @@
     "pwa-helper-components": "^0.2.10"
   },
   "devDependencies": {
+    "cypress": "^8.2.0",
+    "cypress-cucumber-preprocessor": "^4.2.0",
     "snowpack": "^3.8.6"
   },
   "scripts": {
     "build": "npx snowpack build",
-    "dev": "npx snowpack dev"
+    "dev": "npx snowpack dev",
+    "test": "npx cypress run --headed"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "cypress/bdd/steps"
   }
 }
