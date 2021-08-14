@@ -4,3 +4,4 @@ cypress/videos
 cypress/screenshots
 cypress/result
 cypress/report
+cypress/.run
