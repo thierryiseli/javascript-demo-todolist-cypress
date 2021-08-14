@@ -15,15 +15,38 @@ class HomeView extends ComponentBase {
 
   constructor() {
     super();
-    let existingTodoItems = JSON.parse(localStorage.getItem("todoItems"));
+    this.todoItems = [];
+    this.newTodoItem = "";
+    this.todoItemToDelete = null;
+    this.todoItemToDeleteElement = null;
+  }
+
+  async firstUpdated() {
+    let existingTodoItems = JSON.parse(localStorage.getItem("todoItems"));    
     if (existingTodoItems != null) {
       this.todoItems = existingTodoItems;
     } else {
       this.todoItems = [];
     }
-    this.newTodoItem = "";
-    this.todoItemToDelete = null;
-    this.todoItemToDeleteElement = null;
+    
+    await new Promise((r) => setTimeout(r, 0));    
+    
+    let self = this;
+    this.querySelector('#new-todo-item')
+      .shadowRoot
+      .querySelector('input')
+      .addEventListener('keyup', (event) => {
+        if (event.key === "Enter") {
+          self.todoItems.push({
+            name: event.target.value,
+            done: false,
+            createdAt: new Date(),
+          });
+          self.requestUpdate();
+          self.newTodoItem = "";
+          self.saveTodoList();
+        }
+      });
   }
 
   render() {
@@ -90,7 +113,6 @@ class HomeView extends ComponentBase {
         placeholder="Enter todo item"
         help-text="Press enter to add todo item."
         .value="${live(this.newTodoItem)}"
-        @keyup="${this.inputNewTodoItem}"
       ></sl-input>
       <sl-details
         class="todo-item-cards todo-item-cards-open"
@@ -118,7 +140,7 @@ class HomeView extends ComponentBase {
   renderTodoItems() {
     return this.getOpenTodoItems().map(
       (i) => html`
-          <div class="todo-item-card animate__animated animate__bounceInRight">
+          <div class="todo-item-card todo-item-card-open animate__animated animate__bounceInRight">
             ${this.renderTodoItemContent(i)}
           </div>
         `
@@ -167,7 +189,7 @@ class HomeView extends ComponentBase {
 
   renderTodoItemsDone() {
     return this.getDoneTodoItems().map(
-        (i) => html`
+      (i) => html`
           <div
             class="todo-item-card todo-item-card-done animate__animated animate__bounceInRight"
           >
@@ -176,7 +198,7 @@ class HomeView extends ComponentBase {
             ${this.renderTodoButtons(i)}
           </div>
         `
-      );
+    );
   }
 
   renderTodoIcons(todoItem) {
@@ -243,19 +265,6 @@ class HomeView extends ComponentBase {
     todoItem.done = done;
     this.requestUpdate();
     this.saveTodoList();
-  }
-
-  inputNewTodoItem(event) {
-    if (event.key === "Enter") {
-      this.todoItems.push({
-        name: event.target.value,
-        done: false,
-        createdAt: new Date(),
-      });
-      this.requestUpdate();
-      this.newTodoItem = "";
-      this.saveTodoList();
-    }
   }
 
   saveTodoList() {
