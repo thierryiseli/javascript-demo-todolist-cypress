@@ -92,7 +92,7 @@ podTemplate(containers: [
                     'HOST=https://tyupch.github.io/javascript-demo-todolist/'
                 ]) {
                 stage('Run bdd tests') {
-                    sh 'npm install cypress-cucumber-preprocessor@4.2.0 -g'
+                    sh 'npm install cypress-cucumber-preprocessor@4.2.0'
                     sh 'npx cypress run --browser chrome'
                 }
             }
