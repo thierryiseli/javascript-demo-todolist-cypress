@@ -4,7 +4,7 @@ podTemplate(containers: [
         containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'gitversion', image: 'im5tu/netcore-gitversion:3-alpine', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'npm', image: 'node:current-alpine3.14', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'cypress', image: 'cypress/browsers:node14.17.0-chrome91-ff89', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'cypress', image: 'cypress/browsers:node14.16.0-chrome90-ff88', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'jdknode', image: 'timbru31/java-node:11-jdk', command: 'cat', ttyEnabled: true)],
         volumes: [
                 hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -92,7 +92,7 @@ podTemplate(containers: [
                     'HOST=https://tyupch.github.io/javascript-demo-todolist/'
                 ]) {
                 stage('Run bdd tests') {
-                    sh '$(npm bin)/cypress run --browser chrome'
+                    sh 'npx cypress run --browser chrome'
                 }
             }
         }
