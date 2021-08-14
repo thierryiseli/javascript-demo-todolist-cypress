@@ -92,7 +92,7 @@ podTemplate(containers: [
                 sh 'npm install cypress-cucumber-preprocessor@4.2.0 multiple-cucumber-html-reporter@1.18.0'
                 try {
                     sh 'npx cypress run --browser chrome --env HOST=https://tyupch.github.io/javascript-demo-todolist/'
-                    sh 'node cucumber-html-report.js'
+                    sh 'node cucumber-html-report.mjs'
                 } catch (e) {
                     throw e;
                 } finally {
