@@ -30,7 +30,7 @@ podTemplate(containers: [
                     'HOME=.',
                 ]) {
                     sh 'npm install --production'
-                    sh 'npm install snowpack@3.8.6 -g --production'
+                    sh 'npm install snowpack@3.8.6 -g'
                     sh 'npm run build'
                 }
             }
@@ -92,6 +92,7 @@ podTemplate(containers: [
                     'HOST=https://tyupch.github.io/javascript-demo-todolist/'
                 ]) {
                 stage('Run bdd tests') {
+                    sh 'npm install cypress-cucumber-preprocessor@4.2.0 -g'
                     sh 'npx cypress run --browser chrome'
                 }
             }
