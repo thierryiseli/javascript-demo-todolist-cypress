@@ -3,5 +3,6 @@
         "HOST": "http://localhost:8080"
     },
     "testFiles": "**/*.feature",
-    "integrationFolder": "cypress/bdd"
+    "integrationFolder": "test/bdd",
+    "video": false
 }

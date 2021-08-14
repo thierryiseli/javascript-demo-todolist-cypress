@@ -1,5 +1,6 @@
 node_modules
 build
 cypress/videos
-cypress/support
 cypress/screenshots
+cypress/result
+cypress/report

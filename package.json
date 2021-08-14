@@ -11,14 +11,21 @@
   "devDependencies": {
     "cypress": "^8.2.0",
     "cypress-cucumber-preprocessor": "^4.2.0",
+    "multiple-cucumber-html-reporter": "^1.18.0",
     "snowpack": "^3.8.6"
   },
   "scripts": {
     "build": "npx snowpack build",
     "dev": "npx snowpack dev",
-    "test": "npx cypress run --headed"
+    "test": "npx cypress run --headed & node cucumber-html-report.js"
   },
   "cypress-cucumber-preprocessor": {
-    "stepDefinitions": "cypress/bdd/steps"
+    "stepDefinitions": "test/bdd/steps",
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/result",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
   }
 }

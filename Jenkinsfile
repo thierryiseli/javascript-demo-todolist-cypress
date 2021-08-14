@@ -90,7 +90,10 @@ podTemplate(containers: [
         container('cypress') {
             stage('Run bdd tests') {
                 sh 'npm install cypress-cucumber-preprocessor@4.2.0'
+                sh 'npm install multiple-cucumber-html-reporter@1.18.0'
                 sh 'npx cypress run --browser chrome --env HOST=https://tyupch.github.io/javascript-demo-todolist/'
+                sh 'node cucumber-html-report.js'
+                archiveArtifacts artifacts: 'cypress/report/**/*.*', fingerprint: true
             }
         }
     }
