@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npx snowpack build",
     "dev": "npx snowpack dev",
-    "test": "npx cypress run --headed --browser chrome & node cucumber-html-report.js"
+    "test": "npx cypress run --headed --browser chrome & node cucumber-html-report.mjs"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": "test/bdd/steps",

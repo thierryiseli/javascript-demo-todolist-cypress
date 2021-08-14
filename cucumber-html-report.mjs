@@ -1,7 +1,7 @@
-const report = require('multiple-cucumber-html-reporter');
-const fs = require('fs');
+import report from 'multiple-cucumber-html-reporter';
+import fs from 'fs';
 
-const mapOs = (os) => {
+let mapOs = (os) => {
     if(os.startsWith('win')) {
         return 'windows';
     } else if (os.startsWith('osx')) {
@@ -21,7 +21,7 @@ fs.readFile('cypress/.run/results.json', function read(err, data) {
     if (err) {
         throw err;
     }
-    var runInfos = JSON.parse(data);
+    let runInfos = JSON.parse(data);
     report.generate({
         jsonDir: './cypress/result/',
         reportPath: './cypress/report/',
