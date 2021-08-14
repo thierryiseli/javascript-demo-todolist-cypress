@@ -4,6 +4,7 @@ podTemplate(containers: [
         containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'gitversion', image: 'im5tu/netcore-gitversion:3-alpine', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'npm', image: 'node:current-alpine3.14', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'cypress', image: 'cypress/browsers:node14.17.0-chrome91-ff89', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'jdknode', image: 'timbru31/java-node:11-jdk', command: 'cat', ttyEnabled: true)],
         volumes: [
                 hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -24,7 +25,7 @@ podTemplate(containers: [
 
         container('npm') {
             stage('Build frontend') {
-                  withEnv([
+                withEnv([
                     'npm_config_cache=npm-cache',
                     'HOME=.',
                 ]) {
@@ -37,8 +38,8 @@ podTemplate(containers: [
 
         container('jdknode') {
             stage('SonarQube analysis') {
-                def scannerHome = tool name: 'SonarQube';
-                withSonarQubeEnv("SonarQube") {
+                def scannerHome = tool name: 'SonarQube'
+                withSonarQubeEnv('SonarQube') {
                     sh "${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=tyupch_javascript-demo-todolist \
                     -Dsonar.projectName=javascript-demo-todolist \
@@ -49,14 +50,14 @@ podTemplate(containers: [
                 }
             }
 
-            stage("Quality Gate") {
-                timeout(time: 1, unit: 'HOURS') { 
+            stage('Quality Gate') {
+                timeout(time: 1, unit: 'HOURS') {
                     def qg = waitForQualityGate()
                     if (qg.status != 'OK') {
                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
                     }
                 }
-            }   
+            }
         }
 
         stage('Push to GitHub Pages') {
@@ -86,9 +87,13 @@ podTemplate(containers: [
             }
         }
 
-        container('docker') {
-            stage('Run bdd tests') {
-                sh 'docker run -it -v $PWD:/e2e -w /e2e cypress/included:8.2.0 --browser firefox'
+        container('cypress') {
+            withEnv([
+                    'HOST=https://tyupch.github.io/javascript-demo-todolist/'
+                ]) {
+                stage('Run bdd tests') {
+                    sh '$(npm bin)/cypress run --browser chrome'
+                }
             }
         }
     }
