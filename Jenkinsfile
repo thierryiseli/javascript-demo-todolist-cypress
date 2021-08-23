@@ -2,7 +2,7 @@ def gitversion = []
 
 podTemplate(containers: [
         containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'gitversion', image: 'targetprocess/gitversion', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'net', image: 'mcr.microsoft.com/dotnet/sdk:3.1', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'npm', image: 'node:current-alpine3.14', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'cypress', image: 'cypress/included:8.2.0', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'jdknode', image: 'timbru31/java-node:11-jdk', command: 'cat', ttyEnabled: true)],
@@ -14,8 +14,9 @@ podTemplate(containers: [
             checkout scm
         }
 
-        container('gitversion') {
+        container('net') {
             stage('Set version') {
+                sh 'dotnet tool install --global GitVersion.Tool'
                 def output = sh(returnStdout: true, script: 'dotnet-gitversion /output json')
                 gitversion = readJSON text: output
                 currentBuild.displayName = "${gitversion.MajorMinorPatch} (${currentBuild.displayName})"
