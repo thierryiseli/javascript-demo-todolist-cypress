@@ -17,7 +17,7 @@ podTemplate(containers: [
         container('net') {
             stage('Set version') {
                 sh 'dotnet tool install --global GitVersion.Tool'
-                def output = sh(returnStdout: true, script: './root/.dotnet/tools/dotnet-gitversion /output json')
+                def output = sh(returnStdout: true, script: 'export PATH="$PATH:/root/.dotnet/tools" && dotnet-gitversion /output json')
                 gitversion = readJSON text: output
                 currentBuild.displayName = "${gitversion.MajorMinorPatch} (${currentBuild.displayName})"
                 echo output
