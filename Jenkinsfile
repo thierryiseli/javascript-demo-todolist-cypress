@@ -2,7 +2,7 @@ def gitversion = []
 
 podTemplate(containers: [
         containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'gitversion', image: 'im5tu/netcore-gitversion:3-alpine', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'gitversion', image: 'targetprocess/gitversion', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'npm', image: 'node:current-alpine3.14', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'cypress', image: 'cypress/included:8.2.0', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'jdknode', image: 'timbru31/java-node:11-jdk', command: 'cat', ttyEnabled: true)],
