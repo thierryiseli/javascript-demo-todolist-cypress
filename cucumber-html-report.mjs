@@ -4,7 +4,7 @@ import fs from 'fs';
 let mapOs = (os) => {
     if(os.startsWith('win')) {
         return 'windows';
-    } else if (os.startsWith('osx')) {
+    } else if (os.startsWith('darwin')) {
         return 'osx';
     } else if (os.startsWith('linux')) {
         return 'linux';
@@ -17,7 +17,7 @@ let mapOs = (os) => {
     }
 };
 
-fs.readFile('cypress/.run/results.json', function read(err, data) {
+fs.readFile('./cypress/.run/results.json', function read(err, data) {
     if (err) {
         throw err;
     }

@@ -5,3 +5,5 @@ cypress/screenshots
 cypress/result
 cypress/report
 cypress/.run
+.vscode
+.idea
