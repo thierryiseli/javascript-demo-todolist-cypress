@@ -25,7 +25,7 @@ report.generate({
     reportPath: './cypress/.run/html-report/',
     metadata:{
         browser: {
-            name: runInfos.browserName,
+            name: runInfos.browserName === 'chromium' ? 'chrome' : runInfos.browserName,
             version: runInfos.browserVersion
         },
         device: 'Cypress',
