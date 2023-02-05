@@ -1,8 +1,0 @@
-{
-    "env": {
-        "HOST": "http://localhost:8080"
-    },
-    "testFiles": "**/*.feature",
-    "integrationFolder": "test/bdd",
-    "video": false
-}

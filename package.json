@@ -1,31 +1,34 @@
 {
   "name": "demo-todolist",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "snowpack dev",
+    "test": "cypress run --browser chromium && node cypress-cucumber-html-report.js"
+  },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.0.0-beta.47",
+    "@shoelace-style/shoelace": "2.0.0-beta.47",
     "@vaadin/router": "^1.7.4",
     "animate.css": "^4.1.1",
     "lit": "^2.0.0-rc.2",
     "pwa-helper-components": "^0.2.10"
   },
   "devDependencies": {
-    "cypress": "^8.2.0",
-    "cypress-cucumber-preprocessor": "^4.2.0",
-    "multiple-cucumber-html-reporter": "^1.18.0",
-    "snowpack": "^3.8.6"
-  },
-  "scripts": {
-    "build": "npx snowpack build",
-    "dev": "npx snowpack dev",
-    "test": "npx cypress run --headed --browser chromium && node cucumber-html-report.mjs"
+    "@badeball/cypress-cucumber-preprocessor": "latest",
+    "@bahmutov/cypress-esbuild-preprocessor": "latest",
+    "multiple-cucumber-html-reporter": "latest",
+    "cypress": "latest",
+    "snowpack": "3.8.6"
   },
   "cypress-cucumber-preprocessor": {
-    "stepDefinitions": "test/bdd/steps",
-    "cucumberJson": {
-      "generate": true,
-      "outputFolder": "cypress/result",
-      "filePrefix": "",
-      "fileSuffix": ".cucumber"
+    "stepDefinitions": "test/bdd/steps/**/*.js",
+    "json": {
+      "enabled": true,
+      "formatter": ".bin/cucumber-json-formatter",
+      "output": "cypress/.run/reports/json/cucumber-report.json"
+    },
+    "messages": {
+      "enabled": true,
+      "output": "cypress/.run/reports/messages/cucumber-report.ndjson"
     }
   }
 }

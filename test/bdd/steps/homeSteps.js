@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps'
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 Given('I am on the home page', () => {
     cy.visit(Cypress.env('HOST'));
@@ -20,10 +20,6 @@ Then('I can see the new todo {string}', (expectedTodo) => {
 
 Then('input field is ready to add next todo', () => {
     cy.get('#new-todo-item').shadow().find('input').should('have.value', '');
-})
-
-Then('I do not see an open todo', () => {
-    cy.get('.todo-item-card-open').should('not.exist');
 })
 
 Then('I do not see an open todo', () => {
